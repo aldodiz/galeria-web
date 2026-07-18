@@ -76,6 +76,11 @@ export function Footer() {
           </div>
         </div>
       </div>
+      <div className="border-t border-[rgba(139,133,121,0.2)]">
+        <div className="mx-auto max-w-[1440px] px-5 py-5 sm:px-8 lg:px-12">
+          <p className="text-xs text-secondary">© 2026 Néstor Lluvias</p>
+        </div>
+      </div>
     </footer>
   );
 }
