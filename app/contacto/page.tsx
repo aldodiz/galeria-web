@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const metadata = {
   title: "Contacto — Néstor Lluvias"
 };
@@ -59,6 +61,18 @@ export default function ContactPage() {
             Enviar
           </button>
         </form>
+      </section>
+
+      <section className="pt-16 md:pt-24">
+        <div className="relative mx-auto aspect-[3/2] w-full max-w-6xl overflow-hidden bg-white">
+          <Image
+            src="/contactanos.jpg"
+            alt="Contacto — Néstor Lluvias"
+            fill
+            sizes="(min-width: 1280px) 1152px, 100vw"
+            className="object-cover"
+          />
+        </div>
       </section>
     </main>
   );

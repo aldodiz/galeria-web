@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,11 +42,21 @@ export function Header() {
       <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-6 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12">
         <Link
           href="/"
-          className={`cursor-pointer font-display text-2xl leading-none transition-colors duration-200 ${
-            isTransparent ? "hover:text-[#ead8b8]" : "hover:text-accent"
-          }`}
+          aria-label="Néstor Lluvias — Inicio"
+          className="inline-flex shrink-0 cursor-pointer items-center"
         >
-          Néstor Lluvias
+          <Image
+            src="/firma_nestor.png"
+            alt="Néstor Lluvias"
+            width={1408}
+            height={707}
+            priority
+            className={`h-12 w-auto transition-[filter,opacity] duration-500 md:h-14 ${
+              isTransparent
+                ? "brightness-0 invert drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]"
+                : "brightness-0"
+            }`}
+          />
         </Link>
         <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <Link
