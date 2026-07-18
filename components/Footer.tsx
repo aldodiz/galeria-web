@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = [
@@ -12,8 +13,18 @@ export function Footer() {
     <footer className="border-t border-[rgba(139,133,121,0.2)] bg-white">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-5 py-14 sm:px-8 md:grid-cols-12 md:py-20 lg:px-12">
         <div className="md:col-span-4">
-          <Link href="/" className="font-display text-3xl hover:text-accent">
-            Néstor Lluvias
+          <Link
+            href="/"
+            aria-label="Néstor Lluvias — Inicio"
+            className="inline-flex items-center"
+          >
+            <Image
+              src="/firma_nestor.png"
+              alt="Néstor Lluvias"
+              width={1408}
+              height={707}
+              className="h-20 w-auto brightness-0 transition-opacity duration-200 hover:opacity-65 md:h-24"
+            />
           </Link>
         </div>
 

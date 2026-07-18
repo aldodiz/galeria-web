@@ -39,7 +39,7 @@ export function Header() {
           : "border-b border-[rgba(139,133,121,0.2)] bg-bg/95 text-text backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-6 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-5 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-12">
         <Link
           href="/"
           aria-label="Néstor Lluvias — Inicio"
@@ -51,7 +51,7 @@ export function Header() {
             width={1408}
             height={707}
             priority
-            className={`h-12 w-auto transition-[filter,opacity] duration-500 md:h-14 ${
+            className={`h-16 w-auto transition-[filter,opacity] duration-500 md:h-20 ${
               isTransparent
                 ? "brightness-0 invert drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]"
                 : "brightness-0"

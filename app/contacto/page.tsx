@@ -15,6 +15,15 @@ export default function ContactPage() {
           <h1 className="mt-5 font-display text-5xl leading-none md:text-7xl">
             Consulta una obra
           </h1>
+          <div className="relative mt-10 aspect-[3/2] w-full overflow-hidden bg-white md:mt-12">
+            <Image
+              src="/contactanos.jpg"
+              alt="Contacto — Néstor Lluvias"
+              fill
+              sizes="(min-width: 768px) 42vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
 
         <form className="md:col-span-7" action="#" aria-label="Formulario de contacto">
@@ -61,18 +70,6 @@ export default function ContactPage() {
             Enviar
           </button>
         </form>
-      </section>
-
-      <section className="pt-16 md:pt-24">
-        <div className="relative mx-auto aspect-[3/2] w-full max-w-6xl overflow-hidden bg-white">
-          <Image
-            src="/contactanos.jpg"
-            alt="Contacto — Néstor Lluvias"
-            fill
-            sizes="(min-width: 1280px) 1152px, 100vw"
-            className="object-cover"
-          />
-        </div>
       </section>
     </main>
   );
