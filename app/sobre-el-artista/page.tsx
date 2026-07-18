@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Néstor Lluvias — Costera",
+  title: "Sobre el artista — Néstor Lluvias",
   description:
-    "Biografía de Néstor Lluvias, pintor autodidacta reunido en Costera."
+    "Biografía de Néstor Lluvias, pintor autodidacta y artista contemporáneo."
 };
 
 export default function AboutPage() {
@@ -25,7 +25,7 @@ export default function AboutPage() {
               pigmento se piensan como un mismo gesto.
             </p>
             <p>
-              Costera reúne su primera selección de piezas disponibles para
+              Esta galería reúne su primera selección de piezas disponibles para
               colección, marcando el inicio público de su trayectoria como pintor.
             </p>
           </div>

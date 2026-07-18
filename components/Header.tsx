@@ -14,7 +14,7 @@ export function Header() {
           href="/"
           className="cursor-pointer font-display text-2xl leading-none transition-colors duration-200 hover:text-accent"
         >
-          Costera
+          Néstor Lluvias
         </Link>
         <nav aria-label="Navegación principal" className="flex flex-wrap gap-x-7 gap-y-3">
           {navItems.map((item) => (

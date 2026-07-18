@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Gracias por tu compra — Costera",
-  description: "Tu compra en Costera se completó correctamente."
+  title: "Gracias por tu compra — Néstor Lluvias",
+  description: "Tu compra en la galería de Néstor Lluvias se completó correctamente."
 };
 
 export default function ThankYouPage() {

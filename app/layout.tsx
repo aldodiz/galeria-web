@@ -16,12 +16,12 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Costera — Néstor Lluvias",
+  title: "Néstor Lluvias — Galería de Arte",
   description: "Galería de arte online de Néstor Lluvias.",
   openGraph: {
-    title: "Costera — Néstor Lluvias",
+    title: "Néstor Lluvias — Galería de Arte",
     description: "Galería de arte online de Néstor Lluvias.",
-    siteName: "Costera",
+    siteName: "Néstor Lluvias",
     type: "website"
   }
 };

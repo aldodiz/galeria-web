@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   }
 
   return {
-    title: `${painting.title} — Costera`,
+    title: `${painting.title} — Néstor Lluvias`,
     description: `${painting.technique}, ${painting.dimensions}`
   };
 }

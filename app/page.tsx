@@ -13,7 +13,7 @@ export default function Home() {
             Néstor Lluvias
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-8 text-text md:text-xl md:leading-9">
-            Costera reúne obra pictórica disponible en una lectura tranquila,
+            Esta galería reúne obra pictórica disponible en una lectura tranquila,
             directa y editorial.
           </p>
         </div>

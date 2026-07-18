@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Contacto — Costera"
+  title: "Contacto — Néstor Lluvias"
 };
 
 export default function ContactPage() {
