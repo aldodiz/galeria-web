@@ -17,16 +17,19 @@ export default function AboutPage() {
           <h1 className="font-display text-5xl leading-none md:text-7xl">Néstor Lluvias</h1>
           <div className="mt-10 max-w-3xl space-y-6 text-lg leading-8">
             <p>
-              Néstor Lluvias comienza su práctica pictórica explorando la tinta y
-              el color como una extensión de su rutina física — encuentra en el
-              ejercicio diario la misma disciplina y fluidez que busca en cada
-              obra. Autodidacta, su trabajo reciente se centra en composiciones
-              abstractas donde el movimiento del cuerpo y el movimiento del
-              pigmento se piensan como un mismo gesto.
+              Néstor Lluvias es un pintor mexicano cuya obra explora la tensión
+              entre el paisaje y la memoria. Formado de manera autodidacta, su
+              trabajo combina capas de color terroso con gestos espontáneos que
+              remiten tanto a la costa como al recuerdo de un lugar. Cada pieza
+              parte de una observación simple —una luz, una textura, un momento—
+              que se transforma en composición a través de un proceso lento de
+              superposición y raspado.
             </p>
             <p>
-              Esta galería reúne su primera selección de piezas disponibles para
-              colección, marcando el inicio público de su trayectoria como pintor.
+              Su obra ha sido descrita como un puente entre el expresionismo
+              abstracto y la tradición pictórica mexicana contemporánea.
+              Actualmente trabaja desde su estudio, donde desarrolla series que
+              dialogan entre sí a lo largo de meses de trabajo.
             </p>
           </div>
         </div>

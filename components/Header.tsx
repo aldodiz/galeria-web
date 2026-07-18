@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { collections } from "@/lib/paintings";
 
 const navItems = [
-  { href: "/", label: "Obra" },
   { href: "/sobre-el-artista", label: "Sobre el artista" },
   { href: "/contacto", label: "Contacto" }
 ];
@@ -16,7 +16,22 @@ export function Header() {
         >
           Néstor Lluvias
         </Link>
-        <nav aria-label="Navegación principal" className="flex flex-wrap gap-x-7 gap-y-3">
+        <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Link
+            className="cursor-pointer text-[12px] font-medium uppercase tracking-[0.05em] text-secondary transition-colors duration-200 hover:text-text"
+            href="/#obras"
+          >
+            Ver todo
+          </Link>
+          {collections.map((collection) => (
+            <Link
+              className="cursor-pointer text-[12px] font-medium uppercase tracking-[0.05em] text-secondary transition-colors duration-200 hover:text-text"
+              href={`/?coleccion=${encodeURIComponent(collection)}#obras`}
+              key={collection}
+            >
+              {collection}
+            </Link>
+          ))}
           {navItems.map((item) => (
             <Link
               className="cursor-pointer text-[12px] font-medium uppercase tracking-[0.05em] text-secondary transition-colors duration-200 hover:text-text"
