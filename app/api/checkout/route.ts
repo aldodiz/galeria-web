@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       paintingSlug: painting.slug,
       paintingFilename: painting.filename
     },
-    success_url: `${origin}/obra/${painting.slug}?checkout=success`,
+    success_url: `${origin}/gracias?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/obra/${painting.slug}?checkout=cancelled`
   });
 
