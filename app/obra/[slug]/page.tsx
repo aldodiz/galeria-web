@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   }
 
   return {
-    title: `${painting.title} — Costera`,
+    title: `${painting.title} — Néstor Lluvias`,
     description: `${painting.technique}, ${painting.dimensions}`
   };
 }
@@ -29,7 +29,7 @@ export default function PaintingPage({ params }: { params: { slug: string } }) {
     notFound();
   }
 
-  const isUnavailable = painting.price <= 0;
+  const isUnavailable = !painting.available || painting.price <= 0;
 
   return (
     <main className="mx-auto grid max-w-[1440px] gap-10 px-5 py-12 sm:px-8 md:grid-cols-12 md:gap-12 md:py-20 lg:px-12">
@@ -73,12 +73,13 @@ export default function PaintingPage({ params }: { params: { slug: string } }) {
           <p className="mt-8 text-2xl font-semibold text-accent">{formatPrice(painting.price)}</p>
 
           <div className="mt-8">
-            <BuyButton slug={painting.slug} disabled={isUnavailable} />
-            {isUnavailable ? (
+            {painting.available ? (
+              <BuyButton slug={painting.slug} disabled={isUnavailable} />
+            ) : (
               <p className="mt-4 max-w-sm text-sm leading-6 text-secondary">
-                Agrega el precio en lib/paintings.ts para activar Stripe Checkout.
+                Esta obra ha sido vendida.
               </p>
-            ) : null}
+            )}
           </div>
         </div>
       </aside>

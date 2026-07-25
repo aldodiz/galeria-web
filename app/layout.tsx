@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
 
@@ -16,12 +17,12 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Costera — Néstor Lluvias",
+  title: "Néstor Lluvias — Galería de Arte",
   description: "Galería de arte online de Néstor Lluvias.",
   openGraph: {
-    title: "Costera — Néstor Lluvias",
+    title: "Néstor Lluvias — Galería de Arte",
     description: "Galería de arte online de Néstor Lluvias.",
-    siteName: "Costera",
+    siteName: "Néstor Lluvias",
     type: "website"
   }
 };
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

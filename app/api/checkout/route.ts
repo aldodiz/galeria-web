@@ -14,6 +14,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Precio pendiente." }, { status: 400 });
   }
 
+  if (!painting.available) {
+    return NextResponse.json({ error: "Esta obra ya fue vendida." }, { status: 400 });
+  }
+
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json(
       { error: "Falta configurar STRIPE_SECRET_KEY." },
@@ -58,7 +62,7 @@ export async function POST(request: Request) {
       paintingSlug: painting.slug,
       paintingFilename: painting.filename
     },
-    success_url: `${origin}/obra/${painting.slug}?checkout=success`,
+    success_url: `${origin}/gracias?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/obra/${painting.slug}?checkout=cancelled`
   });
 

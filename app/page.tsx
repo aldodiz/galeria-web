@@ -1,26 +1,46 @@
 import { Gallery } from "@/components/Gallery";
-import { paintings } from "@/lib/paintings";
+import { HeroSlideshow } from "@/components/HeroSlideshow";
+import { PurchaseBenefits } from "@/components/PurchaseBenefits";
+import { collections, paintings } from "@/lib/paintings";
+import Image from "next/image";
 
-export default function Home() {
+export default function Home({
+  searchParams
+}: {
+  searchParams: { coleccion?: string };
+}) {
+  const activeCollection = collections.includes(
+    searchParams.coleccion as (typeof collections)[number]
+  )
+    ? searchParams.coleccion
+    : undefined;
+
   return (
     <main>
-      <section className="mx-auto max-w-[1440px] px-5 pb-16 pt-14 sm:px-8 md:pb-24 md:pt-20 lg:px-12">
-        <div className="max-w-5xl">
-          <p className="text-[12px] font-medium uppercase tracking-[0.05em] text-secondary">
-            Galería online
-          </p>
-          <h1 className="mt-6 font-display text-6xl leading-[0.95] text-text sm:text-7xl md:text-8xl lg:text-9xl">
-            Néstor Lluvias
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-text md:text-xl md:leading-9">
-            Costera reúne obra pictórica disponible en una lectura tranquila,
-            directa y editorial.
-          </p>
-        </div>
+      <HeroSlideshow />
+
+      <section className="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 md:py-16 lg:px-12">
+        <h1 className="font-display text-5xl leading-none text-text md:text-7xl">
+          {activeCollection ?? "Obra"}
+        </h1>
       </section>
 
-      <section className="border-t border-[rgba(139,133,121,0.2)]">
-        <Gallery paintings={paintings} />
+      <section id="obras" className="scroll-mt-4 border-t border-[rgba(139,133,121,0.2)]">
+        <Gallery activeCollection={activeCollection} paintings={paintings} />
+      </section>
+
+      <PurchaseBenefits />
+
+      <section className="px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
+        <div className="relative mx-auto aspect-[16/7] max-w-[1440px] overflow-hidden bg-white">
+          <Image
+            src="/slide/3.jpg"
+            alt="Detalle del proceso pictórico en el estudio"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
       </section>
     </main>
   );

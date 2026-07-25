@@ -6,11 +6,20 @@ import { useEffect, useRef, useState } from "react";
 import { PaintingCard } from "@/components/PaintingCard";
 import { formatPrice, type Painting } from "@/lib/paintings";
 
-export function Gallery({ paintings }: { paintings: Painting[] }) {
+export function Gallery({
+  activeCollection,
+  paintings
+}: {
+  activeCollection?: string;
+  paintings: Painting[];
+}) {
   const [activePainting, setActivePainting] = useState<Painting | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const detailLinkRef = useRef<HTMLAnchorElement>(null);
+  const visiblePaintings = activeCollection
+    ? paintings.filter((painting) => painting.collection === activeCollection)
+    : paintings;
 
   function openLightbox(painting: Painting) {
     setActivePainting(painting);
@@ -71,8 +80,8 @@ export function Gallery({ paintings }: { paintings: Painting[] }) {
 
   return (
     <>
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-x-7 gap-y-12 px-5 py-16 sm:px-8 md:grid-cols-12 md:gap-y-20 md:py-24 lg:px-12">
-        {paintings.map((painting, index) => (
+      <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-x-7 gap-y-12 px-5 py-12 sm:grid-cols-2 sm:px-8 md:py-16 lg:grid-cols-3 lg:px-12">
+        {visiblePaintings.map((painting, index) => (
           <PaintingCard
             painting={painting}
             index={index}

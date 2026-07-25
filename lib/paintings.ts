@@ -5,104 +5,132 @@ export type Painting = {
   technique: string;
   dimensions: string;
   price: number;
+  available: boolean;
+  collection: string;
 };
+
+export const collections = ["Paisajes", "Abstractos"] as const;
 
 export const paintings: Painting[] = [
   {
     slug: "marea-azul",
     filename: "1.jpg",
     title: "Marea Azul",
-    technique: "Tinta sobre papel",
-    dimensions: "60 x 80 cm",
-    price: 18500
+    technique: "Óleo sobre lienzo",
+    dimensions: "80 × 100 cm",
+    price: 45000,
+    available: true,
+    collection: "Paisajes"
   },
   {
-    slug: "amanecer-en-la-costa",
+    slug: "horizonte-roto",
     filename: "2.jpg",
-    title: "Amanecer en la Costa",
-    technique: "Tinta y acrílico sobre lienzo",
-    dimensions: "70 x 90 cm",
-    price: 24000
+    title: "Horizonte Roto",
+    technique: "Acrílico sobre lienzo",
+    dimensions: "60 × 80 cm",
+    price: 28000,
+    available: true,
+    collection: "Paisajes"
   },
   {
-    slug: "corriente-dorada",
+    slug: "silencio-de-sal",
     filename: "3.jpg",
-    title: "Corriente Dorada",
-    technique: "Tinta sobre papel",
-    dimensions: "50 x 70 cm",
-    price: 15000
+    title: "Silencio de Sal",
+    technique: "Óleo sobre tabla",
+    dimensions: "40 × 50 cm",
+    price: 15000,
+    available: false,
+    collection: "Abstractos"
   },
   {
-    slug: "vientos-del-sur",
+    slug: "vestigio",
     filename: "4.jpg",
-    title: "Vientos del Sur",
-    technique: "Óleo sobre lienzo",
-    dimensions: "80 x 100 cm",
-    price: 42000
+    title: "Vestigio",
+    technique: "Técnica mixta sobre lienzo",
+    dimensions: "100 × 120 cm",
+    price: 68000,
+    available: true,
+    collection: "Abstractos"
   },
   {
-    slug: "reflejo-nocturno",
+    slug: "cielo-bajo",
     filename: "5.jpg",
-    title: "Reflejo Nocturno",
-    technique: "Tinta sobre papel",
-    dimensions: "45 x 60 cm",
-    price: 12000
+    title: "Cielo Bajo",
+    technique: "Acrílico sobre papel",
+    dimensions: "30 × 40 cm",
+    price: 8500,
+    available: true,
+    collection: "Paisajes"
   },
   {
-    slug: "arrecife",
+    slug: "la-espera",
     filename: "6.jpg",
-    title: "Arrecife",
-    technique: "Acrílico sobre lienzo",
-    dimensions: "90 x 120 cm",
-    price: 58000
+    title: "La Espera",
+    technique: "Óleo sobre lienzo",
+    dimensions: "90 × 90 cm",
+    price: 52000,
+    available: true,
+    collection: "Abstractos"
   },
   {
-    slug: "sal-y-luz",
+    slug: "corriente",
     filename: "7.jpg",
-    title: "Sal y Luz",
-    technique: "Tinta sobre papel",
-    dimensions: "60 x 60 cm",
-    price: 16500
+    title: "Corriente",
+    technique: "Técnica mixta sobre tabla",
+    dimensions: "50 × 60 cm",
+    price: 22000,
+    available: true,
+    collection: "Abstractos"
   },
   {
-    slug: "horizonte-partido",
+    slug: "nocturno-no-3",
     filename: "8.jpg",
-    title: "Horizonte Partido",
+    title: "Nocturno No. 3",
     technique: "Óleo sobre lienzo",
-    dimensions: "100 x 140 cm",
-    price: 95000
+    dimensions: "120 × 150 cm",
+    price: 95000,
+    available: false,
+    collection: "Paisajes"
   },
   {
-    slug: "brisa-tibia",
+    slug: "reflejo-ausente",
     filename: "9.jpg",
-    title: "Brisa Tibia",
-    technique: "Tinta sobre papel",
-    dimensions: "50 x 65 cm",
-    price: 14000
-  },
-  {
-    slug: "cala-secreta",
-    filename: "10.jpg",
-    title: "Cala Secreta",
+    title: "Reflejo Ausente",
     technique: "Acrílico sobre lienzo",
-    dimensions: "75 x 95 cm",
-    price: 32000
+    dimensions: "70 × 70 cm",
+    price: 34000,
+    available: true,
+    collection: "Paisajes"
   },
   {
-    slug: "pieza-mayor",
+    slug: "tierra-firme",
+    filename: "10.jpg",
+    title: "Tierra Firme",
+    technique: "Óleo sobre tabla",
+    dimensions: "45 × 60 cm",
+    price: 18000,
+    available: true,
+    collection: "Paisajes"
+  },
+  {
+    slug: "ultima-luz",
     filename: "11.jpg",
-    title: "Territorio Costero",
-    technique: "Óleo sobre lienzo",
-    dimensions: "120 x 160 cm",
-    price: 185000
+    title: "Última Luz",
+    technique: "Técnica mixta sobre lienzo",
+    dimensions: "100 × 100 cm",
+    price: 58000,
+    available: false,
+    collection: "Abstractos"
   },
   {
-    slug: "espuma",
+    slug: "obra-mayor",
     filename: "12.jpg",
-    title: "Espuma",
-    technique: "Tinta sobre papel",
-    dimensions: "40 x 50 cm",
-    price: 8500
+    title: "Obra Mayor",
+    technique: "Óleo sobre lienzo",
+    dimensions: "150 × 180 cm",
+    price: 200000,
+    available: true,
+    collection: "Abstractos"
   }
 ];
 
