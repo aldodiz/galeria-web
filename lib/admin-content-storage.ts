@@ -1,40 +1,24 @@
 import { get, put } from "@vercel/blob";
-import { kv } from "@vercel/kv";
 import { ADMIN_CONTENT_KEY, type AdminContent } from "@/lib/admin-content";
 
-const JSON_BLOB_PATH = `admin/${ADMIN_CONTENT_KEY}.json`;
-
-type StorageMode = "kv" | "blob";
-
-function hasKvConfig() {
-  return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
-}
+export const JSON_BLOB_PATH = `${ADMIN_CONTENT_KEY}.json`;
 
 function hasBlobConfig() {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 }
 
-export function getConfiguredStorageMode(): StorageMode {
-  return hasKvConfig() ? "kv" : "blob";
-}
-
 export function assertStorageConfigured() {
-  if (hasKvConfig() || hasBlobConfig()) {
+  if (hasBlobConfig()) {
     return;
   }
 
   throw new Error(
-    "Falta configurar Vercel Blob (BLOB_READ_WRITE_TOKEN o BLOB_STORE_ID) o Vercel KV/Redis (KV_REST_API_URL y KV_REST_API_TOKEN)."
+    "Falta configurar Vercel Blob (BLOB_READ_WRITE_TOKEN o BLOB_STORE_ID)."
   );
 }
 
 export async function saveAdminContent(content: AdminContent) {
   assertStorageConfigured();
-
-  if (hasKvConfig()) {
-    await kv.set(ADMIN_CONTENT_KEY, content);
-    return "kv" satisfies StorageMode;
-  }
 
   await put(JSON_BLOB_PATH, JSON.stringify(content, null, 2), {
     access: "public",
@@ -42,18 +26,11 @@ export async function saveAdminContent(content: AdminContent) {
     contentType: "application/json"
   });
 
-  return "blob" satisfies StorageMode;
+  return JSON_BLOB_PATH;
 }
 
 export async function readAdminContent() {
   assertStorageConfigured();
-
-  if (hasKvConfig()) {
-    return {
-      content: await kv.get<AdminContent>(ADMIN_CONTENT_KEY),
-      storage: "kv" satisfies StorageMode
-    };
-  }
 
   const result = await get(JSON_BLOB_PATH, {
     access: "public",
@@ -63,7 +40,7 @@ export async function readAdminContent() {
   if (!result || result.statusCode === 304 || !result.stream) {
     return {
       content: null,
-      storage: "blob" satisfies StorageMode
+      pathname: JSON_BLOB_PATH
     };
   }
 
@@ -71,7 +48,7 @@ export async function readAdminContent() {
 
   return {
     content: JSON.parse(text) as AdminContent,
-    storage: "blob" satisfies StorageMode
+    pathname: JSON_BLOB_PATH
   };
 }
 

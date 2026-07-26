@@ -87,7 +87,7 @@ export default function AdminContenidoForm() {
   const [content, setContent] = useState<AdminContent>(createEmptyAdminContent);
   const [status, setStatus] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
-  const [storage, setStorage] = useState<string>("");
+  const [pathname, setPathname] = useState<string>("");
 
   async function unlock(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -109,7 +109,7 @@ export default function AdminContenidoForm() {
     }
 
     setContent(data.content ?? createEmptyAdminContent());
-    setStorage(data.storage || "");
+    setPathname(data.pathname || "");
     setIsUnlocked(true);
     setStatus("idle");
   }
@@ -174,7 +174,7 @@ export default function AdminContenidoForm() {
     }
 
     setContent(data.content);
-    setStorage(data.storage || "");
+    setPathname(data.pathname || "");
     form.reset();
     setStatus("success");
     setMessage(data.message || "Guardado correctamente.");
@@ -218,8 +218,8 @@ export default function AdminContenidoForm() {
               Herramienta interna
             </p>
             <h1 className="mt-2 font-display text-4xl">Contenido de Néstor Lluvias</h1>
-            {storage ? (
-              <p className="mt-2 text-sm text-secondary">Almacenamiento activo: {storage}</p>
+            {pathname ? (
+              <p className="mt-2 text-sm text-secondary">JSON en Blob: {pathname}</p>
             ) : null}
           </div>
           <button

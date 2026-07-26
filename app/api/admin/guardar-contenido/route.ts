@@ -92,13 +92,13 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString()
     };
 
-    const storage = await saveAdminContent(savedContent);
+    const pathname = await saveAdminContent(savedContent);
 
     return NextResponse.json({
       ok: true,
       message: "Guardado correctamente.",
       content: savedContent,
-      storage
+      pathname
     });
   } catch (error) {
     const message =
