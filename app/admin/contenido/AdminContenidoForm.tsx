@@ -10,6 +10,60 @@ import {
 
 type SaveState = "idle" | "loading" | "success" | "error";
 
+const BIOGRAPHY_MIN_LENGTH = 400;
+const INSTAGRAM_EXAMPLE = "https://www.instagram.com/tu_usuario";
+
+function formatPrice(value: string) {
+  const cleanValue = value.replace(/\D/g, "");
+
+  if (!cleanValue) {
+    return "";
+  }
+
+  return new Intl.NumberFormat("en-US").format(Number(cleanValue));
+}
+
+function normalizeInstagramUrl(value: string) {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return "";
+  }
+
+  if (/^https:\/\//i.test(trimmedValue)) {
+    return trimmedValue;
+  }
+
+  if (/^http:\/\//i.test(trimmedValue)) {
+    return trimmedValue.replace(/^http:\/\//i, "https://");
+  }
+
+  return `https://${trimmedValue}`;
+}
+
+function getInstagramError(value: string) {
+  if (!value) {
+    return "Agrega el link de Instagram.";
+  }
+
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.replace(/^www\./, "");
+
+    if (url.protocol !== "https:" || hostname !== "instagram.com") {
+      return `Revisa el link, debe verse como ${INSTAGRAM_EXAMPLE}`;
+    }
+
+    if (!url.pathname || url.pathname === "/") {
+      return `Revisa el link, debe verse como ${INSTAGRAM_EXAMPLE}`;
+    }
+
+    return "";
+  } catch {
+    return `Revisa el link, debe verse como ${INSTAGRAM_EXAMPLE}`;
+  }
+}
+
 function FieldLabel({
   children,
   htmlFor
@@ -28,14 +82,20 @@ function TextInput({
   label,
   value,
   onChange,
+  onBlur,
   placeholder,
-  type = "text"
+  type = "text",
+  inputMode,
+  error
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   type?: string;
+  inputMode?: "text" | "numeric" | "decimal" | "email" | "tel" | "url" | "search";
+  error?: string;
 }) {
   const id = useMemo(() => label.toLowerCase().replace(/\s+/g, "-"), [label]);
 
@@ -47,9 +107,13 @@ function TextInput({
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        onBlur={onBlur}
         placeholder={placeholder}
+        inputMode={inputMode}
+        aria-invalid={Boolean(error)}
         className="min-h-11 w-full border border-[rgba(139,133,121,0.35)] bg-white px-3 text-sm outline-none transition focus:border-accent"
       />
+      {error ? <p className="text-sm leading-5 text-red-700">{error}</p> : null}
     </div>
   );
 }
@@ -88,6 +152,10 @@ export default function AdminContenidoForm() {
   const [status, setStatus] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
   const [pathname, setPathname] = useState<string>("");
+  const [instagramError, setInstagramError] = useState("");
+
+  const biographyLength = content.biography.trim().length;
+  const isBiographyLongEnough = biographyLength >= BIOGRAPHY_MIN_LENGTH;
 
   async function unlock(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -137,6 +205,20 @@ export default function AdminContenidoForm() {
     }));
   }
 
+  function updateArtworkPrice(index: number, value: string) {
+    updateArtwork(index, { price: value.replace(/\D/g, "") });
+  }
+
+  function normalizeAndValidateInstagram() {
+    const normalizedUrl = normalizeInstagramUrl(content.instagramUrl);
+    const error = getInstagramError(normalizedUrl);
+
+    updateContent({ instagramUrl: normalizedUrl });
+    setInstagramError(error);
+
+    return !error;
+  }
+
   function addArtwork() {
     setContent((current) => ({
       ...current,
@@ -153,13 +235,24 @@ export default function AdminContenidoForm() {
 
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!normalizeAndValidateInstagram()) {
+      setStatus("error");
+      setMessage("Corrige el link de Instagram antes de guardar.");
+      return;
+    }
+
     setStatus("loading");
     setMessage("");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
     formData.set("password", password);
-    formData.set("content", JSON.stringify(content));
+    const contentToSave = {
+      ...content,
+      instagramUrl: normalizeInstagramUrl(content.instagramUrl)
+    };
+    formData.set("content", JSON.stringify(contentToSave));
 
     const response = await fetch("/api/admin/guardar-contenido", {
       method: "POST",
@@ -244,18 +337,35 @@ export default function AdminContenidoForm() {
         ) : null}
 
         <section className="grid gap-6 lg:grid-cols-2">
-          <TextArea
-            label="Biografía"
-            rows={10}
-            value={content.biography}
-            onChange={(biography) => updateContent({ biography })}
-          />
+          <div className="flex flex-col gap-2">
+            <TextArea
+              label="Biografía"
+              rows={10}
+              value={content.biography}
+              onChange={(biography) => updateContent({ biography })}
+            />
+            <p
+              className={`text-sm ${
+                isBiographyLongEnough ? "text-green-800" : "text-amber-700"
+              }`}
+            >
+              {biographyLength} / mínimo {BIOGRAPHY_MIN_LENGTH} caracteres
+            </p>
+          </div>
           <div className="grid content-start gap-6">
             <TextInput
               label="Instagram URL"
               value={content.instagramUrl}
-              onChange={(instagramUrl) => updateContent({ instagramUrl })}
-              placeholder="https://www.instagram.com/..."
+              onChange={(instagramUrl) => {
+                updateContent({ instagramUrl });
+                if (instagramError) {
+                  setInstagramError("");
+                }
+              }}
+              onBlur={normalizeAndValidateInstagram}
+              placeholder={INSTAGRAM_EXAMPLE}
+              inputMode="url"
+              error={instagramError}
             />
             <TextInput
               label="Nombre para Stripe checkout"
@@ -274,6 +384,7 @@ export default function AdminContenidoForm() {
         <section className="grid gap-6 lg:grid-cols-2">
           <div className="flex flex-col gap-2">
             <FieldLabel htmlFor="artistPhoto">Foto del artista</FieldLabel>
+            <p className="text-sm leading-5 text-secondary">Sube la foto que tengas, nosotros la ajustamos.</p>
             <input id="artistPhoto" name="artistPhoto" type="file" accept="image/*" className="text-sm" />
             {content.artistPhotoUrl ? (
               <a className="text-sm text-secondary underline" href={content.artistPhotoUrl} target="_blank" rel="noreferrer">
@@ -283,6 +394,7 @@ export default function AdminContenidoForm() {
           </div>
           <div className="flex flex-col gap-2">
             <FieldLabel htmlFor="editorialImage">Imagen editorial opcional</FieldLabel>
+            <p className="text-sm leading-5 text-secondary">Sube la foto que tengas, nosotros la ajustamos.</p>
             <input id="editorialImage" name="editorialImage" type="file" accept="image/*" className="text-sm" />
             {content.editorialImageUrl ? (
               <a className="text-sm text-secondary underline" href={content.editorialImageUrl} target="_blank" rel="noreferrer">
@@ -344,13 +456,15 @@ export default function AdminContenidoForm() {
                     label="Medidas"
                     value={artwork.dimensions}
                     onChange={(dimensions) => updateArtwork(index, { dimensions })}
+                    inputMode="decimal"
                   />
                 </div>
                 <div className="lg:col-span-1">
                   <TextInput
                     label="Precio"
-                    value={artwork.price}
-                    onChange={(price) => updateArtwork(index, { price })}
+                    value={formatPrice(artwork.price)}
+                    onChange={(price) => updateArtworkPrice(index, price)}
+                    inputMode="numeric"
                   />
                 </div>
                 <div className="lg:col-span-2">
@@ -374,6 +488,7 @@ export default function AdminContenidoForm() {
                 </div>
                 <div className="flex flex-col gap-2 lg:col-span-10">
                   <FieldLabel htmlFor={`artworkImage-${index}`}>Imagen de obra</FieldLabel>
+                  <p className="text-sm leading-5 text-secondary">Sube la foto que tengas, nosotros la ajustamos.</p>
                   <input
                     id={`artworkImage-${index}`}
                     name={`artworkImage-${index}`}
