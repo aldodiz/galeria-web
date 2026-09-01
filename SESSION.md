@@ -1,6 +1,6 @@
 # Estado De Sesion
 
-Ultima actualizacion: 2026-09-01 15:01:30 CST
+Ultima actualizacion: 2026-09-01 15:03:00 CST
 
 ## Objetivo Actual
 
@@ -15,6 +15,7 @@ El contenido real de Nestor guardado en Vercel Blob alimenta las rutas publicas 
 - Se agrego `POST /api/admin/guardar-contenido` para subir imagenes y guardar texto + URLs en Blob.
 - Se mejoro la usabilidad del formulario admin: contador de biografia, validacion/formateo de Instagram, ayuda simple en imagenes, precio con comas en vivo y valor limpio para guardar.
 - Se conectaron home, obra, biografia, contacto y checkout a `contenido-nestor-lluvias.json` mediante `lib/get-site-content.ts`.
+- Se sustituyo el spread de `Set` por `Array.from(new Set(...))` en home para compatibilidad con el build de Vercel.
 
 ## Estado Actual
 

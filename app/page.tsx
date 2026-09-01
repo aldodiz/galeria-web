@@ -13,7 +13,9 @@ export default async function Home({
 }) {
   const content = await getSiteContent();
   const editorialImageUrl = content.editorialImageUrl || "/slide/3.jpg";
-  const collections = [...new Set(content.artworks.map((artwork) => artwork.collection))];
+  const collections = Array.from(
+    new Set(content.artworks.map((artwork) => artwork.collection))
+  );
   const activeCollection = collections.includes(searchParams.coleccion ?? "")
     ? searchParams.coleccion
     : undefined;
