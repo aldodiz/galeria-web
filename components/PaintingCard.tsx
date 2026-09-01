@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { formatPrice, type Painting } from "@/lib/paintings";
+import { formatPrice } from "@/lib/paintings";
+import { type SitePainting } from "@/lib/get-site-content";
 
 export function PaintingCard({
   index,
@@ -7,8 +8,8 @@ export function PaintingCard({
   painting
 }: {
   index: number;
-  onOpen: (painting: Painting) => void;
-  painting: Painting;
+  onOpen: (painting: SitePainting) => void;
+  painting: SitePainting;
 }) {
   return (
     <article className="min-w-0">
@@ -20,7 +21,7 @@ export function PaintingCard({
       >
         <div className="relative aspect-[4/5] overflow-hidden bg-white">
           <Image
-            src={`/pinturas/${painting.filename}`}
+            src={painting.imageUrl}
             alt={painting.title}
             fill
             sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw"

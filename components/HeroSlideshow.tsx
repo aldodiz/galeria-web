@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const slides = ["/slide/1.jpg", "/slide/2.jpg", "/slide/3.jpg"];
+const fallbackSlides = ["/slide/1.jpg", "/slide/2.jpg", "/slide/3.jpg"];
 
-export function HeroSlideshow() {
+export function HeroSlideshow({ heroImageUrl, heroPhrase }: { heroImageUrl?: string; heroPhrase?: string }) {
+  const slides = heroImageUrl ? [heroImageUrl] : fallbackSlides;
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export function HeroSlideshow() {
             Nueva selección
           </p>
           <h1 className="mt-5 font-display text-6xl leading-[0.95] sm:text-7xl md:text-8xl">
-            Obra disponible ahora
+            {heroPhrase || "Obra disponible ahora"}
           </h1>
           <Link
             href="#obras"

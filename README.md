@@ -52,7 +52,8 @@ npm run start
 - `app/api/admin/guardar-contenido/route.ts`: subida de imagenes y guardado del JSON en Blob.
 - `app/api/checkout/route.ts`: crea sesiones de Stripe Checkout.
 - `components/`: componentes visuales reutilizables del sitio publico.
-- `lib/paintings.ts`: catalogo publico placeholder/estatico usado por galeria, detalle y checkout.
+- `lib/get-site-content.ts`: lectura, normalizacion y fallbacks del contenido publico almacenado en Vercel Blob.
+- `lib/paintings.ts`: catalogo local de respaldo y utilidades de formato para cuando Blob no esta disponible.
 - `lib/admin-content.ts`: tipos y valores iniciales del formulario interno.
 - `lib/admin-content-storage.ts`: utilidades de Vercel Blob para imagenes y JSON.
 - `public/`: assets publicos servidos por Next.
@@ -69,7 +70,7 @@ npm run start
 
 ## Contenido
 
-El sitio publico todavia consume las obras desde `lib/paintings.ts` y las imagenes desde `public/pinturas` y `public/slide`. La herramienta interna guarda un objeto JSON en Vercel Blob con el nombre `contenido-nestor-lluvias.json`, junto con URLs publicas de imagenes subidas. Ese JSON esta preparado para reemplazar el contenido placeholder en una integracion posterior.
+El sitio publico lee `contenido-nestor-lluvias.json` directamente de Vercel Blob mediante `lib/get-site-content.ts`. Home, detalle de obra, biografia, contacto y checkout se regeneran como maximo cada 60 segundos. Si Blob no esta configurado, no responde o un campo esta vacio, se usan los assets y textos locales de respaldo para mantener el sitio funcional.
 
 El endpoint de lectura protegido es:
 
@@ -85,7 +86,7 @@ x-admin-password: ADMIN_PASSWORD
 
 ## Notas de Desarrollo
 
-- Mantener la herramienta admin aislada del sitio publico hasta que se implemente explicitamente la lectura del JSON en las paginas publicas.
+- Mantener la herramienta admin aislada de la navegacion publica; el sitio lee Blob directamente y nunca usa el endpoint protegido de admin.
 - Las imagenes del sitio publico usan `object-cover` en tarjetas/hero y `object-contain` en vistas de detalle/lightbox para preservar la obra.
 - No agregar enlaces a `/admin/contenido` en header, footer o sitemap publico.
 - No guardar secretos reales en el repositorio.

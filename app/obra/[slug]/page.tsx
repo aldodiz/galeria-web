@@ -1,16 +1,22 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BuyButton } from "@/components/BuyButton";
-import { formatPrice, getPaintingBySlug, paintings } from "@/lib/paintings";
+import { getSiteContent } from "@/lib/get-site-content";
+import { formatPrice } from "@/lib/paintings";
 
-export function generateStaticParams() {
-  return paintings.map((painting) => ({
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const content = await getSiteContent();
+
+  return content.artworks.map((painting) => ({
     slug: painting.slug
   }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const painting = getPaintingBySlug(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const content = await getSiteContent();
+  const painting = content.artworks.find((artwork) => artwork.slug === params.slug);
 
   if (!painting) {
     return {};
@@ -22,8 +28,9 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-export default function PaintingPage({ params }: { params: { slug: string } }) {
-  const painting = getPaintingBySlug(params.slug);
+export default async function PaintingPage({ params }: { params: { slug: string } }) {
+  const content = await getSiteContent();
+  const painting = content.artworks.find((artwork) => artwork.slug === params.slug);
 
   if (!painting) {
     notFound();
@@ -36,7 +43,7 @@ export default function PaintingPage({ params }: { params: { slug: string } }) {
       <section className="min-w-0 md:col-span-7 lg:col-span-8">
         <div className="relative aspect-[3/2] bg-white">
           <Image
-            src={`/pinturas/${painting.filename}`}
+            src={painting.imageUrl}
             alt={painting.title}
             fill
             sizes="(min-width: 1024px) 66vw, 100vw"

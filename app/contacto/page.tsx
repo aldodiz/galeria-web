@@ -1,10 +1,15 @@
 import Image from "next/image";
+import { getSiteContent } from "@/lib/get-site-content";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "Contacto — Néstor Lluvias"
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const content = await getSiteContent();
+
   return (
     <main className="mx-auto max-w-[1440px] px-5 py-14 sm:px-8 md:py-24 lg:px-12">
       <section className="grid gap-12 md:grid-cols-12">
@@ -17,7 +22,7 @@ export default function ContactPage() {
           </h1>
           <div className="relative mt-10 aspect-[3/2] w-full overflow-hidden bg-white md:mt-12">
             <Image
-              src="/contactanos.jpg"
+              src={content.editorialImageUrl || "/contactanos.jpg"}
               alt="Contacto — Néstor Lluvias"
               fill
               sizes="(min-width: 768px) 42vw, 100vw"

@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getPaintingBySlug } from "@/lib/paintings";
+import { getSiteContent } from "@/lib/get-site-content";
 
 export async function POST(request: Request) {
   const { slug } = (await request.json()) as { slug?: string };
-  const painting = slug ? getPaintingBySlug(slug) : undefined;
+  const content = await getSiteContent();
+  const painting = slug ? content.artworks.find((artwork) => artwork.slug === slug) : undefined;
 
   if (!painting) {
     return NextResponse.json({ error: "Obra no encontrada." }, { status: 404 });
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
           product_data: {
             name: painting.title,
             description: `${painting.technique} · ${painting.dimensions}`,
-            images: [`${origin}/pinturas/${painting.filename}`],
+            images: [painting.imageUrl.startsWith("http") ? painting.imageUrl : `${origin}${painting.imageUrl}`],
             metadata: {
               slug: painting.slug
             }
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
     ],
     metadata: {
       paintingSlug: painting.slug,
-      paintingFilename: painting.filename
+      paintingImageUrl: painting.imageUrl
     },
     success_url: `${origin}/gracias?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/obra/${painting.slug}?checkout=cancelled`

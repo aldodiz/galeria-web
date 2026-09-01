@@ -4,16 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { PaintingCard } from "@/components/PaintingCard";
-import { formatPrice, type Painting } from "@/lib/paintings";
+import { formatPrice } from "@/lib/paintings";
+import { type SitePainting } from "@/lib/get-site-content";
 
 export function Gallery({
   activeCollection,
   paintings
 }: {
   activeCollection?: string;
-  paintings: Painting[];
+  paintings: SitePainting[];
 }) {
-  const [activePainting, setActivePainting] = useState<Painting | null>(null);
+  const [activePainting, setActivePainting] = useState<SitePainting | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const detailLinkRef = useRef<HTMLAnchorElement>(null);
@@ -21,7 +22,7 @@ export function Gallery({
     ? paintings.filter((painting) => painting.collection === activeCollection)
     : paintings;
 
-  function openLightbox(painting: Painting) {
+  function openLightbox(painting: SitePainting) {
     setActivePainting(painting);
     window.setTimeout(() => setIsVisible(true), 10);
   }
@@ -123,7 +124,7 @@ export function Gallery({
             <div className="flex min-h-0 flex-1 items-center justify-center bg-black/20">
               <div className="relative h-[68vh] w-full md:h-[74vh]">
                 <Image
-                  src={`/pinturas/${activePainting.filename}`}
+                  src={activePainting.imageUrl}
                   alt={activePainting.title}
                   fill
                   sizes="100vw"
